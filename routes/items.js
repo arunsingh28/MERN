@@ -30,9 +30,9 @@ router.delete('/:id',async(req,res)=>{
     try {
         const _id = req.params.id
         await Item.findById(_id)
-        .then(item => Item.remove().then(()=> res.json({success:true})))
+        .then(item => item.remove().then(()=> res.json({success:true})))
     } catch (error) {
-        return res.json({error})
+        return res.status(404).json({success:false,msg:'No data present with id:'+_id})
     }
 })
 
