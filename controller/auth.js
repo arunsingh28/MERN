@@ -41,7 +41,7 @@ exports.login = async (req, res, next) => {
 }
 
 
-exports.forgotpassword = (req, res, next) => {
+exports.forgotpassword = async (req, res, next) => {
     const { email } = req.body
     try {
         const user = await _user.findOne({email})

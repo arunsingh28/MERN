@@ -1,12 +1,14 @@
 require('dotenv').config()
 const express = require('express')
 const errorHandler = require('./middleware/error')
-
+const cors = require('cors')
 const app = express()
 
 
 // body parser
 app.use(express.json())
+
+app.use(cors())
 
 const auth = require('./routes/auth')
 const private = require('./routes/private')
