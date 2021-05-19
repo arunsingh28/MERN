@@ -1,23 +1,29 @@
-const express = require('express')
-const mongoose = require('mongoose')
 require('dotenv').config()
+const express = require('express')
+
 
 const app = express()
+
 
 // body parser
 app.use(express.json())
 
-const items = require('./routes/items')
-
-mongoose.connect(process.env.URI,{useNewUrlParser:true, useUnifiedTopology: true})
-.then(()=>{
-    console.log('DB connected')
-})
-.catch(e => console.log(e))
+const auth = require('./routes/auth')
 
 
-app.use('/api/items', items)
+const connectDB = require('./config/db')
+
+
+connectDB()
+
+
+app.use('/api/auth',auth)
 
 const PORT = process.env.PORT || 5000
-app.listen(PORT,console.log(`Server is up on port${PORT}`))
+const server = app.listen(PORT,console.log(`Server is up on port${PORT}`))
 
+
+process.on("unhandledRejection",(err,promise)=>{
+    console.log(`Logged Error: ${err}`)
+    server.close(() => process.exit(1))
+})
