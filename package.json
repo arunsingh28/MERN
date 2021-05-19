@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.9",
     "react-transition-group": "^4.4.1",
     "reactstrap": "^8.9.0",
