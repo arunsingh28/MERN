@@ -24,7 +24,7 @@ const UserSchema = new Schema({
         select: false
     },
     resetPasswordToken: String,
-    resetPasswordExpire: String
+    resetPasswordExpire: Date,
 })
 
 UserSchema.pre("save", async function (next) {
