@@ -11,6 +11,7 @@ exports.protect = async (req, res, next) => {
     }
 
     if (!token) {
+        console.log("Token not found")
         return next(new ErrorResponse("Not authoriz to access this route", 401))
     }
 
@@ -25,6 +26,7 @@ exports.protect = async (req, res, next) => {
         req.user = user
         next()
     } catch (error) {
+        console.log("Error from line 28 "+error)
         return next(new ErrorResponse("Not authoriz to access this route", 401))
     }
 }

@@ -10,11 +10,11 @@ const Register = ({ history }) => {
     const [error, setError] = useState('')
 
 
-    useEffect(() => {
-        if (localStorage.getItem('authToken')) {
-            history.push('/')
-        }
-    }, [history])
+    // useEffect(() => {
+    //     if (localStorage.getItem('authToken')) {
+    //         history.push('/')
+    //     }
+    // }, [history])
 
     const handleForm = async (e) => {
         e.preventDefault()
@@ -35,11 +35,16 @@ const Register = ({ history }) => {
 
         try {
             const { data } = await axios.post('/api/auth/register',
-                { username, password, email },
-                config)
+             { 
+                username, 
+                password, 
+                email 
+             },
+                config
+            )
 
             localStorage.setItem('authToken', data.token)
-            history.push('/login')
+            history.push('/')
         } catch (error) {
             setError(error.response.data.error)
             setTimeout(() => {
