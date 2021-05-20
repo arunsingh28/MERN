@@ -2,10 +2,11 @@ const jwt = require('jsonwebtoken')
 const _user = require('../Model/User')
 const ErrorResponse = require('../utils/errorResponse')
 
-module.exports = async (req, res, next) => {
+exports.protect = async (req, res, next) => {
     let token
 
-    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+    if (req.headers.authorization &&
+        req.headers.authorization.startsWith("Bearer")) {
         token = req.headers.authorization.split(" ")[1]
     }
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 
-
-const Private = ({ history }) => {
+const Private = () => {
     const [error, setError] = useState('')
     const [privateDate, setPrivateData] = useState('')
-
+    const history = useHistory()
     useEffect(() => {
         document.title = 'Private route'
 
@@ -31,10 +31,18 @@ const Private = ({ history }) => {
         fetchPrivateData()
     }, [history])
 
-
+    const logout = () => {
+        localStorage.removeItem('authToken')
+        history.push('/login')
+    }
     return (
         <>
-            {error ? { error } : { privateDate } }
+            {error ? { error } : (
+                <>
+                    { privateDate}
+                    <button className="btn btn-primary" onClick={logout}>Logout</button>
+                </>
+            )}
         </>
     )
 }

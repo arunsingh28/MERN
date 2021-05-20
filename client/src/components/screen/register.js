@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-const Register = ({history}) => {
+const Register = ({ history }) => {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -11,49 +11,49 @@ const Register = ({history}) => {
 
 
     useEffect(() => {
-        if (localStorage.getItem('authtoken')) {
+        if (localStorage.getItem('authToken')) {
             history.push('/')
         }
     }, [history])
-    
+
     const handleForm = async (e) => {
         e.preventDefault()
 
         const config = {
-            header : {
+            header: {
                 'Content-Type': 'application/json'
             }
         }
-        if(password !== confirm){
+        if (password !== confirm) {
             setPassword('')
             setConfirm('')
-            setTimeout(()=>{
+            setTimeout(() => {
                 setError('')
-            },5000)
+            }, 5000)
             return setError('Password not matching')
         }
 
         try {
-            const {data} = await axios.post('/api/auth/register',
-            {username,password,email},
-            config)
+            const { data } = await axios.post('/api/auth/register',
+                { username, password, email },
+                config)
 
-            localStorage.setItem('authToken',data.token)
+            localStorage.setItem('authToken', data.token)
             history.push('/login')
         } catch (error) {
             setError(error.response.data.error)
-            setTimeout(()=>{
+            setTimeout(() => {
                 setError('')
-            },5000)
+            }, 5000)
         }
     }
 
     return (
         <div className="card card-outline-secondary container">
-            <div class="card-header">
-                <h3 class="mb-0">Sign Up</h3>
+            <div className="card-header">
+                <h3 className="mb-0">Sign Up</h3>
             </div>
-            { error && <span className="alert alert-danger mt-2">{error}</span> }
+            { error && <span className="alert alert-danger mt-2">{error}</span>}
             <div className="card-body">
                 <form onSubmit={handleForm}>
                     <div className="form-group mt-1">
@@ -61,7 +61,7 @@ const Register = ({history}) => {
                         <input type="text" className="form-control" placeholder="username" required value={username} className="form-control" onChange={(e) => setUsername(e.target.value)} />
                     </div>
                     <div className="form-group mt-1">
-                        <label htmlFor="username">Email</label>
+                        <label htmlFor="email">Email</label>
                         <input type="email" className="form-control" placeholder="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
                     </div>
 

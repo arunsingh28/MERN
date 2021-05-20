@@ -6,12 +6,14 @@ exports.register = async (req, res, next) => {
 
     try {
         const user = await _user.create({
-            username, password, email
+            username,
+            password,
+            email
         })
         // return res.status(201).json({ success: true, user })
-        getToken(user, 201, res)
+        getToken(user, 200, res)
     } catch (error) {
-        next(new ErrorResponse(error, 400))
+        next(error);
     }
 }
 
@@ -31,12 +33,12 @@ exports.login = async (req, res, next) => {
         const isMatch = await user.matchPassword(password)
         if (!isMatch) {
             // return res.status(404).json({ success: false, error: "invalid credentials" })
-            return next(new ErrorResponse("Invalid Password", 404))
+            return next(new ErrorResponse("Invalid Password", 401))
         }
         // return res.status(200).json({ success: true, token: 'something token asdfadfad' })
         getToken(user, 200, res)
     } catch (error) {
-        return next(new ErrorResponse(error, 400))
+        next(error)
     }
 }
 
@@ -44,22 +46,22 @@ exports.login = async (req, res, next) => {
 exports.forgotpassword = async (req, res, next) => {
     const { email } = req.body
     try {
-        const user = await _user.findOne({email})
-        if(!user){
-            return next(new ErrorResponse(`Can not send mail to ${email}`,404))
+        const user = await _user.findOne({ email })
+        if (!user) {
+            return next(new ErrorResponse(`Can not send mail to ${email}`, 404))
         }
         const resetToken = user.getResetPasswordToken()
 
         await user.save()
 
-        const resetURI =  process.env.RESET_PASSWORD_URL + '/resetpassword/' + resetToken
+        const resetURI = process.env.RESET_PASSWORD_URL + '/resetpassword/' + resetToken
         const message = `
         <h1>Reset Password Link</h1>
         <p>Please go to link to reset password <p>
         <a href="${resetURI}" style={padding:5px 30px;background:lightblue;border-radius:5px} clicktracking=off>Reset Password</a>
         `
     } catch (error) {
-        return next(new ErrorResponse(error,400))
+        return next(new ErrorResponse(error, 400))
     }
 }
 

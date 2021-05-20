@@ -8,7 +8,6 @@ const handleError = (err, req, res, next) => {
 
 
 
-
     if(err.code === 11000){
         const message = "Duplicate value"
         error = new ErrorResponse(message, 400)
