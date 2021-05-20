@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useHistory } from 'react-router-dom'
 
-const Private = () => {
+
+const Private = ({ history }) => {
     const [error, setError] = useState('')
     const [privateDate, setPrivateData] = useState('')
-    const history = useHistory()
+    const [user, setUser] = useState([])
+
+    const emoji = [' 😎',' 👽',' 🥶',' 😃',' 😷',' 👻',' 👋',' 🧑‍💻',' 🧚',' 👩‍🚀',' 🤏']
     useEffect(() => {
-        document.title = 'Private route'
-        // if (localStorage.getItem('authToken')) {
-        //     history.push('/login')
-        // }
+        document.title = user.map(i => i.username + emoji[Math.floor(Math.random()* emoji.length)] )
+
         const fetchPrivateData = async () => {
             const config = {
-                headers : {
+                headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('authToken')}`
                 }
@@ -22,14 +22,14 @@ const Private = () => {
             try {
                 const { data } = await axios.get('/api/private', config)
                 setPrivateData(data.data)
+                setUser([data.user])
             } catch (error) {
-                console.log(error)
-                // localStorage.removeItem('authToken')
+                localStorage.removeItem('authToken')
                 setError('You are not Authorize please login first.')
             }
         }
         fetchPrivateData()
-    }, [])
+    },[emoji])
 
     const logout = () => {
         localStorage.removeItem('authToken')
@@ -38,11 +38,18 @@ const Private = () => {
     return error ? (
         <div className="jumbotron container">{error}</div>)
         : (
-                <>
-                    { privateDate}
-                    <button className="btn btn-primary" onClick={logout}>Logout</button>
-                </>
-        )    
+            <>
+                { privateDate}
+                {
+                    user.map(name => {
+                        return (
+                            <h1 key={name._id}>{name.username}</h1>
+                        )
+                    })
+                }
+                <button className="btn btn-primary" onClick={logout}>Logout</button>
+            </>
+        )
 }
 
 export default Private

@@ -10,6 +10,7 @@ const Login = ({ history }) => {
 
 
     useEffect(() => {
+        document.title = "Login"
         if (localStorage.getItem('authToken')) {
             history.push('/')
         }
@@ -28,9 +29,6 @@ const Login = ({ history }) => {
             const { data } = await axios.post('/api/auth/login',
                 { password, email },
                 config)
-
-            console.log(data.token)
-
             localStorage.setItem('authToken', data.token)
             history.push('/')
         } catch (error) {

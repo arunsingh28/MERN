@@ -9,12 +9,9 @@ const Register = ({ history }) => {
     const [confirm, setConfirm] = useState('')
     const [error, setError] = useState('')
 
-
-    // useEffect(() => {
-    //     if (localStorage.getItem('authToken')) {
-    //         history.push('/')
-    //     }
-    // }, [history])
+    useEffect(()=>{
+        document.title = "Register"
+    },[])
 
     const handleForm = async (e) => {
         e.preventDefault()
@@ -35,11 +32,11 @@ const Register = ({ history }) => {
 
         try {
             const { data } = await axios.post('/api/auth/register',
-             { 
-                username, 
-                password, 
-                email 
-             },
+                {
+                    username,
+                    password,
+                    email
+                },
                 config
             )
 
@@ -63,25 +60,58 @@ const Register = ({ history }) => {
                 <form onSubmit={handleForm}>
                     <div className="form-group mt-1">
                         <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" placeholder="username" required value={username} className="form-control" onChange={(e) => setUsername(e.target.value)} />
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="username"
+                            required
+                            value={username}
+                            className="form-control"
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
                     </div>
                     <div className="form-group mt-1">
                         <label htmlFor="email">Email</label>
-                        <input type="email" className="form-control" placeholder="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <input
+                            type="email"
+                            className="form-control"
+                            placeholder="email"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </div>
 
                     <div className="form-group mt-1">
-                        <label htmlFor="username">Password</label>
-                        <input type="password" className="form-control" placeholder="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            placeholder="password"
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
                     </div>
 
                     <div className="form-group mt-1">
-                        <label htmlFor="username">Confirm Password</label>
-                        <input type="password" className="form-control" placeholder="password" required value={confirm} onChange={(e) => setConfirm(e.target.value)} />
+                        <label htmlFor="confirm">Confirm Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            placeholder="password"
+                            required
+                            value={confirm}
+                            onChange={(e) => setConfirm(e.target.value)}
+                        />
                     </div>
 
                     <div className="form-group my-3">
-                        <button className="btn btn-success float-right" type="submit">Register</button>
+                        <button
+                            className="btn btn-success float-right"
+                            type="submit">
+                            Register
+                        </button>
                     </div>
                     <Link to="/login">You already have an account ?</Link>
                 </form>
